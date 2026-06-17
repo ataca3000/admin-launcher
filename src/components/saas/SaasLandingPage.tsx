@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { ArrowRight, Box, BrainCircuit, ShieldCheck, Zap, Globe, Cpu } from 'lucide-react';
 import DeploymentWizard from './DeploymentWizard';
@@ -36,27 +38,27 @@ export default function SaasLandingPage() {
         <div className="max-w-5xl mx-auto px-6 relative z-10 text-center flex flex-col items-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-sm font-medium mb-8 animate-pulse">
             <span className="w-2 h-2 rounded-full bg-indigo-400" />
-            Infraestructura Edge v2.0 Disponible
+            Ecosistema Blindado de Control de Flujo
           </div>
           
           <h1 className="text-6xl md:text-8xl font-extrabold tracking-tighter mb-8 leading-[1.1]">
-            El ERP que <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-sky-400 animate-gradient-x">
-              se despliega solo.
+            Protege tu negocio y <br/>
+            <span className="tornasol-text">
+              escala tus ganancias.
             </span>
           </h1>
           
           <p className="text-lg md:text-2xl text-slate-400 max-w-3xl mx-auto mb-12 font-light leading-relaxed">
-            Punto de venta, inventario, e-commerce y asistentes de IA nativos. Despliega tu propia infraestructura empresarial privada en segundos. Sin nubes cautivas.
+            No somos un punto de venta. Somos un auditor implacable y un consejero financiero impulsado por IA que elimina el robo hormiga y libera tu flujo de efectivo.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 w-full">
-            <a href="#deploy" className="group relative px-8 py-4 bg-white text-slate-950 rounded-full font-bold text-lg transition-all transform hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] flex items-center gap-2 overflow-hidden">
-              <span className="relative z-10">Iniciar Despliegue</span>
+            <a href="#deploy" className="tornasol-btn group relative px-8 py-4 rounded-full text-lg flex items-center gap-2 overflow-hidden">
+              <span className="relative z-10">Lanzar mi Sistema</span>
               <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
             </a>
-            <a href="#features" className="px-8 py-4 bg-slate-800/50 hover:bg-slate-800 border border-slate-700 hover:border-slate-600 text-white rounded-full font-semibold text-lg transition-all backdrop-blur-sm">
-              Explorar Arquitectura
+            <a href="#roi-calculator" className="glass-module px-8 py-4 hover:border-[var(--plasma-cyan)] text-white rounded-full font-semibold text-lg transition-all flex items-center gap-2">
+              <BrainCircuit className="w-5 h-5 text-[var(--plasma-cyan)]" /> Calcular Retorno (ROI)
             </a>
           </div>
         </div>
@@ -66,8 +68,8 @@ export default function SaasLandingPage() {
       <section id="features" className="py-32 relative z-10 bg-slate-950">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">Potencia a escala global</h2>
-            <p className="text-xl text-slate-400 max-w-2xl mx-auto">Módulos nativos diseñados para el alto rendimiento y la máxima resiliencia.</p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">Tu Bóveda Comercial</h2>
+            <p className="text-xl text-slate-400 max-w-2xl mx-auto">No es una caja registradora, es un ecosistema que protege tu inventario (tu dinero congelado).</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
@@ -75,11 +77,11 @@ export default function SaasLandingPage() {
             <div className="group p-8 rounded-3xl bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 hover:border-indigo-500/50 transition-all duration-500 relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-full bg-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <div className="w-14 h-14 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 shadow-inner">
-                <Box className="w-7 h-7" />
+                <ShieldCheck className="w-7 h-7" />
               </div>
-              <h3 className="text-2xl font-bold mb-4 text-white">POS Multi-Tenant</h3>
+              <h3 className="text-2xl font-bold mb-4 text-white">El Núcleo Blindado</h3>
               <p className="text-slate-400 leading-relaxed">
-                Opera desde cualquier dispositivo. Sincronización PWA local-first con Offline Vault y compatibilidad total con periféricos.
+                Prevención absoluta de robo hormiga y mermas fantasma. Auditoría inmutable de cada movimiento en tu inventario.
               </p>
             </div>
 
@@ -87,11 +89,11 @@ export default function SaasLandingPage() {
             <div className="group p-8 rounded-3xl bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 hover:border-purple-500/50 transition-all duration-500 relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-full bg-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <div className="w-14 h-14 bg-purple-500/10 border border-purple-500/20 text-purple-400 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 shadow-inner">
-                <BrainCircuit className="w-7 h-7" />
+                <Box className="w-7 h-7" />
               </div>
-              <h3 className="text-2xl font-bold mb-4 text-white">IA Operativa</h3>
+              <h3 className="text-2xl font-bold mb-4 text-white">Matriz de Roles</h3>
               <p className="text-slate-400 leading-relaxed">
-                Asistente autónomo que atiende clientes, redacta facturas, cruza bases de datos y genera proyecciones de ventas en tiempo real.
+                El bodeguero solo ingresa, el cajero solo cobra. Permisos herméticos que garantizan que nadie cruce sus funciones y genere fraudes.
               </p>
             </div>
 
@@ -99,12 +101,87 @@ export default function SaasLandingPage() {
             <div className="group p-8 rounded-3xl bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 hover:border-sky-500/50 transition-all duration-500 relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-full bg-sky-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <div className="w-14 h-14 bg-sky-500/10 border border-sky-500/20 text-sky-400 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 shadow-inner">
-                <ShieldCheck className="w-7 h-7" />
+                <BrainCircuit className="w-7 h-7" />
               </div>
-              <h3 className="text-2xl font-bold mb-4 text-white">Bóveda Criptográfica</h3>
+              <h3 className="text-2xl font-bold mb-4 text-white">Consejero IA Financiero</h3>
               <p className="text-slate-400 leading-relaxed">
-                Arquitectura de base de datos aislada (Siloed). Las operaciones offline generan Hash Chains para asegurar la integridad contable total.
+                Detecta inventario estancado y recomienda estrategias de precios (bajar márgenes lentos, subir los rápidos) para liberar tu efectivo.
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Tutorial / How it Works */}
+      <section id="how-it-works" className="py-24 relative z-10 bg-slate-900">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">Cómo Dominar tu Ecosistema</h2>
+            <p className="text-xl text-slate-400 max-w-2xl mx-auto">
+              Desplegar tu instancia es solo el primer paso. Así es como nuestra plataforma transformará tu operación diaria.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-8">
+            <div className="flex flex-col items-center text-center">
+              <div className="w-16 h-16 rounded-full bg-indigo-600 flex items-center justify-center text-2xl font-black mb-6 shadow-[0_0_30px_rgba(79,70,229,0.5)]">1</div>
+              <h3 className="text-xl font-bold mb-3">Lanza tu Servidor</h3>
+              <p className="text-sm text-slate-400">Selecciona tu plan, nombra tu empresa y en 10 segundos orquestamos tu base de datos dedicada en la nube.</p>
+            </div>
+            <div className="flex flex-col items-center text-center">
+              <div className="w-16 h-16 rounded-full bg-purple-600 flex items-center justify-center text-2xl font-black mb-6 shadow-[0_0_30px_rgba(147,51,234,0.5)]">2</div>
+              <h3 className="text-xl font-bold mb-3">Define los Roles</h3>
+              <p className="text-sm text-slate-400">Como dueño (SuperAdmin), asigna cuentas a tus cajeros y bodegueros. Nadie ve lo que no debe ver.</p>
+            </div>
+            <div className="flex flex-col items-center text-center">
+              <div className="w-16 h-16 rounded-full bg-sky-600 flex items-center justify-center text-2xl font-black mb-6 shadow-[0_0_30px_rgba(2,132,199,0.5)]">3</div>
+              <h3 className="text-xl font-bold mb-3">Opera con Blindaje</h3>
+              <p className="text-sm text-slate-400">Cobra en el Punto de Venta. El inventario se audita matemáticamente en tiempo real bloqueando robos.</p>
+            </div>
+            <div className="flex flex-col items-center text-center">
+              <div className="w-16 h-16 rounded-full bg-emerald-600 flex items-center justify-center text-2xl font-black mb-6 shadow-[0_0_30px_rgba(5,150,105,0.5)]">4</div>
+              <h3 className="text-xl font-bold mb-3">Escucha a la IA</h3>
+              <p className="text-sm text-slate-400">Usa el Panel Maestro para ver tus ganancias netas y recibir consejos automatizados sobre qué productos rotar.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ROI Calculator Section */}
+      <section id="roi-calculator" className="py-24 relative z-10 bg-slate-900/50 border-y border-slate-800/60">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-3xl font-bold mb-4">Calculadora de Fugas Ocultas</h2>
+          <p className="text-slate-400 mb-12">¿Sabías que el negocio promedio pierde el 3-5% mensual por robo hormiga y errores de caja?</p>
+          
+          <div className="bg-slate-950 p-8 rounded-3xl border border-slate-800 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500 to-indigo-500"></div>
+            
+            <label className="block text-sm font-bold text-slate-300 uppercase tracking-widest mb-4">Ventas Mensuales Estimadas (USD)</label>
+            <input 
+              type="range" 
+              min="5000" max="100000" step="1000" 
+              className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500 mb-8"
+              defaultValue="20000"
+              id="salesRange"
+              onChange={(e) => {
+                const val = parseInt(e.target.value);
+                document.getElementById('salesValue')!.innerText = '$' + val.toLocaleString();
+                document.getElementById('lossValue')!.innerText = '$' + (val * 0.04).toLocaleString(); // 4% loss
+              }}
+            />
+            <div className="text-4xl font-black text-white mb-8" id="salesValue">$20,000</div>
+            
+            <div className="grid grid-cols-2 gap-4 text-left">
+              <div className="p-6 bg-red-500/10 rounded-2xl border border-red-500/20">
+                <span className="block text-sm text-red-400 font-semibold mb-1">Mermas / Robo (4%)</span>
+                <span className="text-2xl font-bold text-red-300" id="lossValue">$800</span>
+                <span className="block text-xs text-red-400/60 mt-1">Dinero perdido mensualmente</span>
+              </div>
+              <div className="p-6 bg-emerald-500/10 rounded-2xl border border-emerald-500/20">
+                <span className="block text-sm text-emerald-400 font-semibold mb-1">El Sistema se Paga Solo</span>
+                <span className="text-2xl font-bold text-emerald-300">Recupera este %</span>
+                <span className="block text-xs text-emerald-400/60 mt-1">Con nuestro Ecosistema Blindado</span>
+              </div>
             </div>
           </div>
         </div>
@@ -121,6 +198,12 @@ export default function SaasLandingPage() {
           
           <div className="backdrop-blur-xl bg-slate-900/50 border border-slate-800/80 rounded-[2.5rem] p-8 md:p-12 shadow-2xl shadow-indigo-900/20">
             <DeploymentWizard />
+            
+            <div className="mt-12 text-center border-t border-slate-800/50 pt-8">
+              <p className="text-slate-400 text-sm max-w-2xl mx-auto">
+                * Todos los planes incluyen alojamiento en servidores de grado militar, backups diarios y protección contra caídas. Ofrecemos **el costo más bajo del mercado mexicano** eliminando intermediarios y automatizando la orquestación.
+              </p>
+            </div>
           </div>
         </div>
       </section>

@@ -5,9 +5,16 @@ import { Server, Globe, Key, CheckCircle2, Loader2, ArrowRight } from 'lucide-re
 
 export default function DeploymentWizard() {
   const [step, setStep] = useState(1);
+  const [plan, setPlan] = useState('');
   const [tenantName, setTenantName] = useState('');
   const [loading, setLoading] = useState(false);
   const [deployed, setDeployed] = useState(false);
+
+  const plans = [
+    { id: 'basic', name: 'Básico', price: '$499 MXN', features: ['POS Offline', 'Inventario', '3 Usuarios'] },
+    { id: 'pro', name: 'Pro', price: '$899 MXN', features: ['IA Financiera', 'Roles Ilimitados', 'Auditoría'] },
+    { id: 'enterprise', name: 'Enterprise', price: '$1,499 MXN', features: ['Multi-Sucursal', 'Walkie-Talkie', 'Soporte VIP'] }
+  ];
 
   const handleDeploy = async () => {
     if (!tenantName) return;
@@ -16,15 +23,22 @@ export default function DeploymentWizard() {
     try {
       const res = await fetch('/api/deploy', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tenantId: tenantName.toLowerCase().replace(/[^a-z0-9-]/g, '') })
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-deploy-key': 'admin-demo-key-2026'
+        },
+        body: JSON.stringify({ 
+          clientName: tenantName, 
+          adminEmail: 'contacto@' + tenantName.toLowerCase() + '.com',
+          modules: plans.find(p => p.id === plan)?.features || []
+        })
       });
       
       if (res.ok) {
         setTimeout(() => {
           setLoading(false);
           setDeployed(true);
-          setStep(3);
+          setStep(5);
         }, 2000);
       } else {
         alert("Error al aprovisionar el servidor");
@@ -41,10 +55,10 @@ export default function DeploymentWizard() {
       {/* Progreso */}
       <div className="flex items-center justify-between mb-12 relative">
         <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-slate-800 rounded-full -z-10"></div>
-        <div className={`absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full -z-10 transition-all duration-500 ease-out`} style={{ width: step === 1 ? '0%' : step === 2 ? '50%' : '100%' }}></div>
+        <div className={`absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full -z-10 transition-all duration-500 ease-out`} style={{ width: step === 1 ? '0%' : step === 2 ? '25%' : step === 3 ? '50%' : step === 4 ? '75%' : '100%' }}></div>
         
-        {[1, 2, 3].map((s) => (
-          <div key={s} className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg border-4 transition-all duration-300 ${
+        {[1, 2, 3, 4, 5].map((s) => (
+          <div key={s} className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-base md:text-lg border-4 transition-all duration-300 ${
             step >= s 
               ? 'bg-slate-900 border-indigo-500 text-indigo-400 shadow-[0_0_20px_rgba(99,102,241,0.4)]' 
               : 'bg-slate-900 border-slate-800 text-slate-600'
@@ -54,8 +68,41 @@ export default function DeploymentWizard() {
         ))}
       </div>
 
-      <div className="bg-slate-950/50 rounded-2xl p-8 border border-slate-800/80 shadow-inner">
+      <div className="glass-module rounded-2xl p-8 shadow-inner">
         {step === 1 && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-white">Selecciona tu Blindaje</h3>
+              <p className="text-slate-400">Elige el ecosistema que se adapte a tu volumen de ventas.</p>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-4 mb-8">
+              {plans.map(p => (
+                <div 
+                  key={p.id} 
+                  onClick={() => setPlan(p.id)}
+                  className={`p-6 rounded-2xl border-2 cursor-pointer transition-all ${plan === p.id ? 'neon-border-pulse bg-indigo-500/10 border-[var(--plasma-cyan)]' : 'border-slate-800 bg-slate-900/50 hover:border-slate-600'}`}
+                >
+                  <h4 className="text-xl font-bold text-white mb-2">{p.name}</h4>
+                  <div className="text-3xl font-black tornasol-text mb-4">{p.price}<span className="text-sm font-normal text-slate-500">/mes</span></div>
+                  <ul className="space-y-2 text-sm text-slate-400">
+                    {p.features.map((f, i) => <li key={i} className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500" /> {f}</li>)}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            <button 
+              onClick={() => setStep(2)}
+              disabled={!plan}
+              className="tornasol-btn w-full py-4 rounded-xl text-lg flex items-center justify-center gap-2"
+            >
+              Siguiente <ArrowRight className="w-5 h-5" />
+            </button>
+          </div>
+        )}
+
+        {step === 2 && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="flex items-center gap-4 mb-6">
               <div className="p-3 bg-indigo-500/10 rounded-xl text-indigo-400">
@@ -85,9 +132,9 @@ export default function DeploymentWizard() {
               </div>
               
               <button 
-                onClick={() => setStep(2)}
+                onClick={() => setStep(3)}
                 disabled={!tenantName}
-                className="w-full py-4 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-800 disabled:text-slate-500 text-white rounded-xl font-bold text-lg transition-all flex items-center justify-center gap-2 mt-8"
+                className="tornasol-btn w-full py-4 rounded-xl text-lg flex items-center justify-center gap-2 mt-8"
               >
                 Continuar <ArrowRight className="w-5 h-5" />
               </button>
@@ -95,7 +142,43 @@ export default function DeploymentWizard() {
           </div>
         )}
 
-        {step === 2 && (
+        {step === 3 && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-white mb-2">Activa tu Suscripción</h3>
+              <p className="text-slate-400">Estás a un paso de blindar tu inventario.</p>
+            </div>
+            
+            <div className="bg-slate-900 border border-slate-700 rounded-xl p-6 mb-8 text-center">
+              <span className="block text-sm text-slate-400 mb-1">Plan Seleccionado: <strong>{plans.find(p => p.id === plan)?.name}</strong></span>
+              <span className="block text-3xl font-black tornasol-text mb-1">{plans.find(p => p.id === plan)?.price} <span className="text-sm font-normal text-slate-500">MXN/mes</span></span>
+              <span className="block text-xs text-slate-500">Instancia: {tenantName}.admin.com</span>
+            </div>
+
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" className="mb-4">
+              <input type="hidden" name="cmd" value="_xclick" />
+              <input type="hidden" name="business" value="luishalo69@gmail.com" />
+              <input type="hidden" name="item_name" value={`Suscripción ERP Admin.com - Plan ${plans.find(p => p.id === plan)?.name} (${tenantName})`} />
+              <input type="hidden" name="amount" value={plans.find(p => p.id === plan)?.price.replace(/[^0-9]/g, '')} />
+              <input type="hidden" name="currency_code" value="MXN" />
+              <button 
+                type="submit"
+                onClick={() => {
+                  // Permitimos al usuario avanzar manualmente después de que se abre la pestaña de pago
+                  setTimeout(() => setStep(4), 3000); 
+                }}
+                className="w-full py-4 bg-[#003087] hover:bg-[#001c52] text-white rounded-xl text-lg font-bold flex items-center justify-center gap-3 transition-all"
+              >
+                Pagar con PayPal
+              </button>
+            </form>
+            <p className="text-xs text-center text-slate-500 mt-4">
+              Se abrirá una nueva pestaña segura de PayPal. Una vez completado el pago, tu servidor se desplegará automáticamente.
+            </p>
+          </div>
+        )}
+
+        {step === 4 && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-center py-8">
             <div className="w-20 h-20 mx-auto bg-slate-900 border border-slate-800 rounded-2xl flex items-center justify-center mb-6 relative">
                <Server className={`w-10 h-10 ${loading ? 'text-indigo-400 animate-pulse' : 'text-slate-400'}`} />
@@ -122,7 +205,7 @@ export default function DeploymentWizard() {
           </div>
         )}
 
-        {step === 3 && deployed && (
+        {step === 5 && deployed && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-center py-8">
             <div className="w-20 h-20 mx-auto bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mb-6">
               <CheckCircle2 className="w-10 h-10" />
