@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Server, Globe, Key, CheckCircle2, Loader2, ArrowRight } from 'lucide-react';
 
 export default function DeploymentWizard() {
@@ -15,6 +15,22 @@ export default function DeploymentWizard() {
     { id: 'pro', name: 'Pro', price: '$899 MXN', features: ['IA Financiera', 'Roles Ilimitados', 'Auditoría'] },
     { id: 'enterprise', name: 'Enterprise', price: '$1,499 MXN', features: ['Multi-Sucursal', 'Walkie-Talkie', 'Soporte VIP'] }
   ];
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.get('payment_success') === 'true') {
+      const t = searchParams.get('tenant');
+      if (t) setTenantName(t);
+      setStep(4);
+      // Retrasar el aprovisionamiento ligeramente para que el UI cargue
+      setTimeout(() => {
+        handleDeploy();
+      }, 500);
+    }
+    if (searchParams.get('payment_canceled') === 'true') {
+      alert("El pago fue cancelado.");
+    }
+  }, []);
 
   const handleDeploy = async () => {
     if (!tenantName) return;
@@ -155,25 +171,34 @@ export default function DeploymentWizard() {
               <span className="block text-xs text-slate-500">Instancia: {tenantName}.admin.com</span>
             </div>
 
-            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" className="mb-4">
-              <input type="hidden" name="cmd" value="_xclick" />
-              <input type="hidden" name="business" value="luishalo69@gmail.com" />
-              <input type="hidden" name="item_name" value={`Suscripción ERP Admin.com - Plan ${plans.find(p => p.id === plan)?.name} (${tenantName})`} />
-              <input type="hidden" name="amount" value={plans.find(p => p.id === plan)?.price.replace(/[^0-9]/g, '')} />
-              <input type="hidden" name="currency_code" value="MXN" />
-              <button 
-                type="submit"
-                onClick={() => {
-                  // Permitimos al usuario avanzar manualmente después de que se abre la pestaña de pago
-                  setTimeout(() => setStep(4), 3000); 
+            <button 
+                onClick={async () => {
+                  try {
+                    const res = await fetch('/api/stripe/checkout', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        planName: plans.find(p => p.id === plan)?.name,
+                        price: plans.find(p => p.id === plan)?.price,
+                        tenantName
+                      })
+                    });
+                    const data = await res.json();
+                    if (data.url) {
+                      window.location.href = data.url;
+                    } else {
+                      alert('Error: ' + data.error);
+                    }
+                  } catch (e) {
+                    alert('Falla al conectar con la bóveda de Stripe');
+                  }
                 }}
-                className="w-full py-4 bg-[#003087] hover:bg-[#001c52] text-white rounded-xl text-lg font-bold flex items-center justify-center gap-3 transition-all"
+                className="w-full py-4 bg-[#635BFF] hover:bg-[#4B45D6] text-white rounded-xl text-lg font-bold flex items-center justify-center gap-3 transition-all shadow-[0_0_20px_rgba(99,91,255,0.4)]"
               >
-                Pagar con PayPal
+                Pagar con Tarjeta (Stripe)
               </button>
-            </form>
             <p className="text-xs text-center text-slate-500 mt-4">
-              Se abrirá una nueva pestaña segura de PayPal. Una vez completado el pago, tu servidor se desplegará automáticamente.
+              Serás redirigido a la bóveda segura de Stripe. Al completar el pago, regresarás aquí automáticamente para aprovisionar tu servidor.
             </p>
           </div>
         )}
